@@ -5,6 +5,7 @@ import { ApolloProvider } from "@apollo/client";
 import { client } from "./apollo/client";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
+import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

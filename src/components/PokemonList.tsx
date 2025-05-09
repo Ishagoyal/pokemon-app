@@ -27,11 +27,11 @@ const PokemonList = () => {
       {data.getAllPokemon.map((p: any) => (
         <div
           key={p.key}
-          className="cursor-pointer border p-4 rounded shadow"
           onClick={() => dispatch(setSelectedPokemon(p))}
+          className="cursor-pointer border border-gray-300 hover:shadow-lg p-4 rounded-xl bg-white transition"
         >
-          <img src={p.sprite} alt={p.species} />
-          <p>{p.species}</p>
+          <img src={p.sprite} alt={p.species} className="mx-auto w-20 h-20" />
+          <p className="text-center mt-2 font-semibold">{p.species}</p>
         </div>
       ))}
     </div>
