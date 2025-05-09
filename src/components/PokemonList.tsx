@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useQuery, gql } from "@apollo/client";
 import { useDispatch } from "react-redux";
 import { setSelectedPokemon } from "../features/pokemon/pokemonSlice";
+import type { Pokemon } from "../types"; // Import the shared type
 
 const GET_ALL_POKEMON = gql`
   query getAllPokemon($offset: Int!, $take: Int!) {
@@ -16,25 +17,22 @@ const GET_ALL_POKEMON = gql`
 
 const PAGE_SIZE = 20;
 
-const PokemonList = () => {
+const PokemonList: React.FC = () => {
   const dispatch = useDispatch();
-  const [offset, setOffset] = useState(92); // Starting offset
-  const [searchTerm, setSearchTerm] = useState("");
+  const [offset, setOffset] = useState<number>(92); // Starting offset
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
-  const { loading, data } = useQuery(GET_ALL_POKEMON, {
-    variables: { offset, take: PAGE_SIZE },
-  });
-
-  useEffect(() => {
-    if (data && data.getAllPokemon.length > 0) {
-      dispatch(setSelectedPokemon(data.getAllPokemon[0]));
+  const { loading, data } = useQuery<{ getAllPokemon: Pokemon[] }>(
+    GET_ALL_POKEMON,
+    {
+      variables: { offset, take: PAGE_SIZE },
     }
-  }, [data, dispatch]);
+  );
 
   const handleNext = () => setOffset((prev) => prev + PAGE_SIZE);
   const handlePrev = () => setOffset((prev) => Math.max(prev - PAGE_SIZE, 0));
 
-  const filteredPokemon = data?.getAllPokemon.filter((p: any) =>
+  const filteredPokemon = data?.getAllPokemon.filter((p) =>
     p.species.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -69,7 +67,7 @@ const PokemonList = () => {
         <p>Loading...</p>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-          {filteredPokemon.map((p: any) => (
+          {filteredPokemon?.map((p) => (
             <div
               key={p.key}
               onClick={() => dispatch(setSelectedPokemon(p))}

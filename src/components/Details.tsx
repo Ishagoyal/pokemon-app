@@ -1,13 +1,13 @@
 import { useSelector } from "react-redux";
 import type { RootState } from "../app/store";
 
-const Details = () => {
+const Details: React.FC = () => {
   const pokemon = useSelector((state: RootState) => state.pokemon.selected);
 
   return (
     <div className="flex justify-center items-center h-full">
       {!pokemon ? (
-        <div className="bg-white border rounded-xl shadow p-6 h-full flex items-center justify-center text-gray-500">
+        <div className="bg-white border rounded-xl shadow p-6  flex items-center justify-center text-gray-500">
           Select a Pokémon to see details
         </div>
       ) : (
